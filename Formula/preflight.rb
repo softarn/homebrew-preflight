@@ -17,7 +17,10 @@ class Preflight < Formula
     # Create the virtual environment
     system python_exe, "-m", "venv", venv_dir
     
-    # Install the package and its dependencies into the new venv
+    # First, install the build-time dependency into the venv
+    system venv_dir/"bin/pip", "install", "poetry-core"
+    
+    # Now, install the package itself, which can now be built correctly
     system venv_dir/"bin/pip", "install", *std_pip_args, "."
     
     # Symlink the executable into the user's PATH
