@@ -7,17 +7,21 @@ class Preflight < Formula
   license "BSL-1.1"
 
   depends_on "python@3.9"
-  depends_on "poetry"
 
   def install
-    # Tell poetry to create the virtual environment in the current project directory
-    system "poetry", "config", "virtualenvs.in-project", "true"
-    # Install all dependencies
-    system "poetry", "install", "--no-interaction", "--no-root"
-    # Copy the entire virtual environment to a permanent location
-    libexec.install Dir[".venv/*"]
+    # Define a path for our virtual environment
+    venv_dir = libexec/"venv"
+    # Explicitly find the python executable from our dependency
+    python_exe = Formula["python@3.9"].opt_bin/"python3.9"
+
+    # Create the virtual environment
+    system python_exe, "-m", "venv", venv_dir
+    
+    # Install the package and its dependencies into the new venv
+    system venv_dir/"bin/pip", "install", *std_pip_args, "."
+    
     # Symlink the executable into the user's PATH
-    bin.install_symlink libexec/"bin/preflight" => "preflight"
+    bin.install_symlink venv_dir/"bin/preflight" => "preflight"
   end
 
   test do
