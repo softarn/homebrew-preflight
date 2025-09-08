@@ -9,26 +9,23 @@ class Preflight < Formula
   depends_on "python@3.9"
 
   def install
-    # Define a path for our virtual environment
     venv_dir = libexec/"venv"
-    # Explicitly find the python executable from our dependency
     python_exe = Formula["python@3.9"].opt_bin/"python3.9"
 
     # Create the virtual environment
     system python_exe, "-m", "venv", venv_dir
     
-    # First, install the build-time dependency into the venv
+    # Install build dependencies
     system venv_dir/"bin/pip", "install", "poetry-core"
     
-    # Now, install the package itself, which can now be built correctly
+    # Install the package itself
     system venv_dir/"bin/pip", "install", *std_pip_args, "."
     
-    # Symlink the executable into the user's PATH
-    bin.install_symlink venv_dir/"bin/preflight" => "preflight"
+    # Create a wrapper script in the user's PATH
+    (bin/"preflight").write_env_script venv_dir/"bin/preflight", PATH: "#{venv_dir}/bin:$PATH"
   end
 
   test do
-    # A simple test to ensure the command runs
     system "#{bin}/preflight", "--help"
   end
 end
