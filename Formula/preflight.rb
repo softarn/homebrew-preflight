@@ -2,8 +2,8 @@
 class Preflight < Formula
   desc "AI-powered code reviewer CLI"
   homepage "https://github.com/softarn/preflight"
-  url "https://github.com/softarn/preflight/releases/download/v0.1.0-alpha.3/preflight-0.1.0a3.tar.gz"
-  sha256 "a63503c17a0f9866bbb16c6d1c5c0908e91d923a749b9e5e785a78b25f2bfe97"
+  url "https://github.com/softarn/preflight/releases/download/v0.1.0-alpha.3/preflight-0.1.0a4.tar.gz"
+  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
   license "BSL-1.1"
 
   depends_on "python@3.10"
