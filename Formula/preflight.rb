@@ -19,7 +19,8 @@ class Preflight < Formula
     system venv_dir/"bin/pip", "install", "poetry-core"
     
     # Install the package itself
-    system({"CMAKE_ARGS" => "-DGGML_METAL=on"}, venv_dir/"bin/pip", "install", ".")
+    ENV["CMAKE_ARGS"] = "-DGGML_METAL=on"
+    system venv_dir/"bin/pip", "install", "."
     
     # Create a wrapper script in the user's PATH
     (bin/"preflight").write_env_script venv_dir/"bin/preflight", PATH: "#{venv_dir}/bin:$PATH"
